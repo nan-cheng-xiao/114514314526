@@ -77,10 +77,17 @@ function line () {
     line4.setPosition(117, 0)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.sayText("go, go, go")
+    mySprite.sayText("go, go, go", 500, false)
+    myChiken.setVelocity(-30, 0)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.sayText("stop")
+    mySprite.sayText("stop", 500, false)
+    myChiken.setVelocity(0, 0)
+})
+sprites.onOverlap(SpriteKind.Food, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroy(myChiken)
+    info.changeLifeBy(-1)
+    scene.cameraShake(4, 500)
 })
 function Joe () {
     mySprite = sprites.create(img`
@@ -103,11 +110,8 @@ function Joe () {
         `, SpriteKind.Player)
     controller.moveSprite(mySprite, 100, controller.dx())
     mySprite.setPosition(130, 93)
-    info.setLife(3)
+    info.setLife(2)
     mySprite.setBounceOnWall(true)
-}
-function Car () {
-	
 }
 function chiken () {
     myChiken = sprites.create(img`
@@ -300,7 +304,6 @@ scene.setBackgroundImage(img`
     ddddddddddddddddddddddddddddddddddbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbddddddddddddddddddddddddddddddddddd
     `)
 line()
-Car()
 Joe()
 chiken()
 game.onUpdateInterval(2000, function () {
