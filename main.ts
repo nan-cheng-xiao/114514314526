@@ -240,12 +240,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Food, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroy(myChiken)
     for (let index = 0; index < 1; index++) {
         info.changeScoreBy(1)
     }
     info.changeLifeBy(-1)
     scene.cameraShake(4, 500)
-    sprites.destroy(myChiken)
     if (info.score() == 2) {
         sprites.destroy(myChiken2)
     }
@@ -259,7 +259,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         myChiken2.setVelocity(-30, 0)
     }
     if (info.score() == 2) {
-        myChiken2.setVelocity(-30, 0)
+        myChiken3.setVelocity(-30, 0)
     }
 })
 function Joe () {
@@ -287,15 +287,15 @@ function Joe () {
     mySprite.setBounceOnWall(true)
 }
 function chikens () {
-    if (myChiken.x < 35) {
+    if (myChiken.x < 15 && info.score() == 0) {
         sprites.destroy(myChiken)
         info.changeScoreBy(1)
     }
-    if (myChiken2.x < 35) {
+    if (myChiken2.x < 15 && info.score() == 1) {
         sprites.destroy(myChiken2)
         info.changeScoreBy(1)
     }
-    if (myChiken3.x < 35) {
+    if (myChiken3.x < 15 && info.score() == 2) {
         sprites.destroy(myChiken3)
         info.changeScoreBy(2)
     }
@@ -495,4 +495,10 @@ Joe()
 chiken()
 game.onUpdateInterval(1500, function () {
     car()
+})
+forever(function () {
+    chikens()
+    if (info.score() == 3) {
+        info.changeScoreBy(1)
+    }
 })
